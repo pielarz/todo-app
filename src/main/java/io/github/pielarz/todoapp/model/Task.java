@@ -1,19 +1,23 @@
 package io.github.pielarz.todoapp.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "tasks")
 public class Task {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @NotBlank(message = "Task's description must not be empty")
     private String description;
 
     private boolean done;
+
+    public Task() {
+    }
 
     public int getId() {
         return id;
