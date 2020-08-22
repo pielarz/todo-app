@@ -48,4 +48,23 @@ public class TaskController {
         repository.save(task);
         return ResponseEntity.created(new URI("localhost:8080/tasks")).build();
     }
+
+    @RequestMapping(value = "/tasks/{id}", method = RequestMethod.PUT)
+    ResponseEntity<Task> updateTask(@PathVariable Integer id, @RequestBody Task task){
+        if(!repository.existsById(id)){
+            return ResponseEntity.notFound().build();
+        }
+        task.setId(id);
+        repository.save(task);
+        return ResponseEntity.noContent().build();
+    }
+
+    @RequestMapping(value = "/tasks/{id}", method = RequestMethod.DELETE)
+    ResponseEntity<Task> deleteTask(@PathVariable Integer id){
+        if(!repository.existsById(id)){
+            return ResponseEntity.notFound().build();
+        }
+        repository.deleteById(id);
+        return ResponseEntity.ok().build();
+    }
 }
