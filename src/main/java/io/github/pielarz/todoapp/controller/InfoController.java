@@ -1,8 +1,6 @@
 package io.github.pielarz.todoapp.controller;
 
-import io.github.pielarz.todoapp.model.TaskConfigurationProperties;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import io.github.pielarz.todoapp.config.TaskConfigurationProperties;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,6 +27,6 @@ public class InfoController {
 
     @GetMapping("info/prop")
     boolean myProp(){
-        return myProp.isAllowMultipleTasksFromTemplate();
+        return myProp.getTemplate().isAllowMultipleTasks();
     }
 }
