@@ -44,4 +44,12 @@ public class TaskGroup {
     public void setDone(final boolean done) {
         this.done = done;
     }
+
+    public Set<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(Set<Task> tasks) {
+        this.tasks = tasks;
+    }
 }
