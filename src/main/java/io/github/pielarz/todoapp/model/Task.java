@@ -2,6 +2,7 @@ package io.github.pielarz.todoapp.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tasks")
@@ -16,7 +17,17 @@ public class Task {
 
     private boolean done;
 
+    private LocalDateTime deadline;
+
     public Task() {
+    }
+
+    public LocalDateTime getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(LocalDateTime deadline) {
+        this.deadline = deadline;
     }
 
     public int getId() {
