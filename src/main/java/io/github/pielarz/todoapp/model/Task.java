@@ -56,10 +56,27 @@ public class Task {
         this.deadline = deadline;
     }
 
+    Audit getAudit() {
+        return audit;
+    }
+
+    void setAudit(Audit audit) {
+        this.audit = audit;
+    }
+
+    TaskGroup getGroup() {
+        return group;
+    }
+
+    void setGroup(TaskGroup group) {
+        this.group = group;
+    }
+
     public void updateFrom(final Task source) {
         description = source.description;
         done = source.done;
         deadline = source.deadline;
+        group = source.group;
     }
 
 }
