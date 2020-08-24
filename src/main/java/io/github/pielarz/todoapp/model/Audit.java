@@ -1,12 +1,12 @@
 package io.github.pielarz.todoapp.model;
 
-import javax.persistence.MappedSuperclass;
+import javax.persistence.Embeddable;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import java.time.LocalDateTime;
 
-@MappedSuperclass
-abstract public class BaseAuditableEntity {
+@Embeddable
+abstract class Audit {
 
     private LocalDateTime createdOn;
     private LocalDateTime updatedOn;
