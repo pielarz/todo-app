@@ -51,13 +51,17 @@ public class TaskController {
         return ResponseEntity.created(new URI("localhost:8080/tasks")).build();
     }
 
+
     @RequestMapping(value = "/tasks/{id}", method = RequestMethod.PUT)
-    ResponseEntity<Task> updateTask(@PathVariable Integer id, @RequestBody Task task){
+    ResponseEntity<Task> updateTask(@PathVariable Integer id, @RequestBody Task toUpdate){
         if(!repository.existsById(id)){
             return ResponseEntity.notFound().build();
         }
-        task.setId(id);
-        repository.save(task);
+        repository.findById(id)
+                .ifPresent(task -> {
+                    task.updateFrom(toUpdate);
+                    repository.save(task);
+                });
         return ResponseEntity.noContent().build();
     }
 
