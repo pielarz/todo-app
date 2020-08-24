@@ -1,12 +1,14 @@
 package io.github.pielarz.todoapp.controller;
 
 import io.github.pielarz.todoapp.model.Task;
+import io.github.pielarz.todoapp.repository.SqlTaskRepository;
 import io.github.pielarz.todoapp.repository.TaskRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -19,7 +21,7 @@ public class TaskController {
     public static final Logger logger = LoggerFactory.getLogger(TaskController.class);
     private final TaskRepository repository;
 
-    public TaskController(TaskRepository repository) {
+    public TaskController(SqlTaskRepository repository) {
         this.repository = repository;
     }
 
@@ -66,5 +68,16 @@ public class TaskController {
         }
         repository.deleteById(id);
         return ResponseEntity.ok().build();
+    }
+
+    @Transactional
+    @RequestMapping(value="/tasks/{id}", method = RequestMethod.PATCH)
+    ResponseEntity<Task> toggleTask(@PathVariable Integer id){
+        if(!repository.existsById(id)){
+            return ResponseEntity.notFound().build();
+        }
+        repository.findById(id)
+                .ifPresent(task -> task.setDone(!task.isDone()));
+        return ResponseEntity.noContent().build();
     }
 }
