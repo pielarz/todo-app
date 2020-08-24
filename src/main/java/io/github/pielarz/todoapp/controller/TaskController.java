@@ -70,9 +70,9 @@ public class TaskController {
         return ResponseEntity.ok().build();
     }
 
-    @Transactional
+    @Transactional  //METHOD HAS TO BE PUBLIC!! Otherwise no changes occur.
     @RequestMapping(value="/tasks/{id}", method = RequestMethod.PATCH)
-    ResponseEntity<Task> toggleTask(@PathVariable Integer id){
+    public ResponseEntity<Task> toggleTask(@PathVariable Integer id){
         if(!repository.existsById(id)){
             return ResponseEntity.notFound().build();
         }
