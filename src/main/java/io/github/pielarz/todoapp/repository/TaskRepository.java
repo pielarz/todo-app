@@ -12,20 +12,21 @@ import java.util.List;
 import java.util.Optional;
 
 
-@RepositoryRestResource
 public interface TaskRepository {
-
-    List<Task> findByDone(@Param("state") boolean done);
-
-    boolean existsById(Integer id);
 
     List<Task> findAll();
 
     Page<Task> findAll(Pageable page);
 
-    Task save(Task entity);
-
     Optional<Task> findById(Integer id);
+
+    boolean existsById(Integer id);
+
+    boolean existsByDoneIsFalseAndGroup_Id(Integer groupId);
+
+    List<Task> findByDone(@Param("state") boolean done);
+
+    Task save(Task entity);
 
     void deleteById(Integer id);
 }
