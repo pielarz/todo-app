@@ -1,9 +1,9 @@
-package io.github.pielarz.todoapp.repository;
+package io.github.pielarz.todoapp.adapter;
 
 import io.github.pielarz.todoapp.model.Task;
+import io.github.pielarz.todoapp.repository.TaskRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
