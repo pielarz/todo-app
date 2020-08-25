@@ -1,21 +1,21 @@
-package io.github.pielarz.todoapp.repository;
+package io.github.pielarz.todoapp.adapter;
 
 import io.github.pielarz.todoapp.model.TaskGroup;
+import io.github.pielarz.todoapp.repository.TaskGroupRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
-import java.util.Optional;
+
 
 @Repository
 public interface SqlTaskGroupRepository extends TaskGroupRepository, JpaRepository<TaskGroup, Integer> {
 
     @Override
+    @Query("select distinct g from TaskGroup g join fetch g.tasks")
     List<TaskGroup> findAll();
 
     @Override
-    Optional<TaskGroup> findById(Integer id);
+    boolean existsByDoneIsFalseAndProject_Id(Integer projectId);
 
-    @Override
-    TaskGroup save(TaskGroup entity);
 }
