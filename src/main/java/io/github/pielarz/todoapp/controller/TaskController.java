@@ -1,7 +1,7 @@
 package io.github.pielarz.todoapp.controller;
 
 import io.github.pielarz.todoapp.model.Task;
-import io.github.pielarz.todoapp.repository.SqlTaskRepository;
+import io.github.pielarz.todoapp.adapter.SqlTaskRepository;
 import io.github.pielarz.todoapp.repository.TaskRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
