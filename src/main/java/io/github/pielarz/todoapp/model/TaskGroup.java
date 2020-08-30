@@ -18,6 +18,7 @@ public class TaskGroup {
     @ManyToOne
     @JoinColumn(name = "project_id")
     private Project project;
+
     public TaskGroup() {
     }
 
@@ -33,7 +34,7 @@ public class TaskGroup {
         return description;
     }
 
-    void setDescription(final String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
