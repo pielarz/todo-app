@@ -92,11 +92,10 @@ class ProjectServiceTest {
         //given
         var today = LocalDate.now().atStartOfDay();
         //and
+        var project = projectWith("bar", Set.of(-1, -2));
         var mockRepository = mock(ProjectRepository.class);
         when(mockRepository.findById(anyInt()))
-                .thenReturn(Optional.of(
-                        projectWith("bar", Set.of(-1, -2))
-                ));
+                .thenReturn(Optional.of(project));
         //and
         InMemoryGroupRepository inMemoryGroupRepository = inMemoryGroupRepository();
         int countBeforeCall = inMemoryGroupRepository.count();
@@ -113,25 +112,22 @@ class ProjectServiceTest {
         assertThat(result.getDeadline()).isEqualTo(today.minusDays(1));
         assertThat(result.getTasks()).allMatch(task -> task.getDescription().equals("foo"));
         assertThat(countBeforeCall + 1)
-                .isNotEqualTo(inMemoryGroupRepository.count());
+                .isEqualTo(inMemoryGroupRepository.count());
 
 
     }
 
     private Project projectWith(String projectDescription, Set<Integer> daysToDeadline) {
-
+        Set<ProjectStep> steps = daysToDeadline.stream()
+                .map(days -> {
+                    var step = mock(ProjectStep.class);
+                    when(step.getDescription()).thenReturn("foo");
+                    when(step.getDaysToDeadline()).thenReturn(days);
+                    return step;
+                }).collect(Collectors.toSet());
         var result = mock(Project.class);
         when(result.getDescription()).thenReturn(projectDescription);
-        when(result.getSteps()).thenReturn(
-                daysToDeadline.stream()
-                        .map(days -> {
-                            var step = mock(ProjectStep.class);
-                            when(step.getDescription()).thenReturn("foo");
-                            when(step.getDaysToDeadline()).thenReturn(days);
-                            return step;
-                        })
-                        .collect(Collectors.toSet())
-        );
+        when(result.getSteps()).thenReturn(steps);
         return result;
     }
 
@@ -177,7 +173,9 @@ class ProjectServiceTest {
         public TaskGroup save(TaskGroup entity) {
             if (entity.getId() == 0) {
                 try {
-                    TaskGroup.class.getDeclaredField("id").set(entity, ++index);
+                    var field = TaskGroup.class.getDeclaredField("id");
+                    field.setAccessible(true);
+                    field.set(entity, ++index);
                 } catch (NoSuchFieldException | IllegalAccessException e) {
                     throw new RuntimeException(e);
                 }
