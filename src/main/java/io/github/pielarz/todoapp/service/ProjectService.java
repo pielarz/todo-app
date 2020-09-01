@@ -45,6 +45,7 @@ public class ProjectService {
                             .map(projectStep -> new Task(projectStep.getDescription(), deadline.plusDays(projectStep.getDaysToDeadline())))
                             .collect(Collectors.toSet())
                     );
+                    targetGroup.setProject(project);
                     return taskGroupRepository.save(targetGroup);
                 }).orElseThrow(() -> new IllegalArgumentException("Project with given id not found"));
         return new GroupReadModel(result);
